@@ -41,6 +41,91 @@ activities = {
     }
 }
 
+# Additional activities
+activities.update({
+    "Soccer Club": {
+        "description": "Outdoor soccer practices and intramural matches",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 22,
+        "participants": ["liam@mergington.edu", "noah@mergington.edu"]
+    },
+    "Basketball Team": {
+        "description": "Competitive basketball team practices and games",
+        "schedule": "Mondays, Wednesdays, 5:00 PM - 7:00 PM",
+        "max_participants": 15,
+        "participants": ["sophia@mergington.edu", "emma@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore drawing, painting, and mixed media projects",
+        "schedule": "Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["ava@mergington.edu"]
+    },
+    "Drama Club": {
+        "description": "Acting, stagecraft, and school play productions",
+        "schedule": "Wednesdays, 4:00 PM - 6:00 PM",
+        "max_participants": 25,
+        "participants": ["isabella@mergington.edu"]
+    },
+    "Debate Team": {
+        "description": "Learn debate formats and compete in tournaments",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 12,
+        "participants": ["michael@mergington.edu"]
+    },
+    "Science Olympiad": {
+        "description": "Prepare for science competitions across disciplines",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": ["olivia@mergington.edu"]
+    }
+})
+
+# Additional sports, artistic, and intellectual activities
+activities.update({
+    # Sports
+    "Tennis Club": {
+        "description": "Practice tennis skills and compete in friendly matches",
+        "schedule": "Wednesdays and Fridays, 4:00 PM - 5:30 PM",
+        "max_participants": 16,
+        "participants": ["alex@mergington.edu", "mia@mergington.edu"]
+    },
+    "Swimming Team": {
+        "description": "Competitive swim practices and meets",
+        "schedule": "Mondays, Tuesdays, Thursdays, 6:00 PM - 7:30 PM",
+        "max_participants": 24,
+        "participants": ["noah@mergington.edu", "ava@mergington.edu"]
+    },
+
+    # Artistic
+    "Photography Club": {
+        "description": "Learn photography techniques and organize exhibitions",
+        "schedule": "Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 20,
+        "participants": ["isabella@mergington.edu"]
+    },
+    "Music Ensemble": {
+        "description": "Rehearse and perform instrumental and vocal pieces",
+        "schedule": "Tuesdays, 5:00 PM - 7:00 PM",
+        "max_participants": 30,
+        "participants": ["sophia@mergington.edu", "emma@mergington.edu"]
+    },
+
+    # Intellectual
+    "Math Club": {
+        "description": "Work on math problems, competitions, and enrichment",
+        "schedule": "Wednesdays, 3:30 PM - 4:30 PM",
+        "max_participants": 25,
+        "participants": ["michael@mergington.edu"]
+    },
+    "Robotics Club": {
+        "description": "Design and build robots for competitions and projects",
+        "schedule": "Mondays and Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 18,
+        "participants": ["daniel@mergington.edu"]
+    }
+})
+
 
 @app.get("/")
 def root():
@@ -62,6 +147,9 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student aiready signed up for this activity")
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
